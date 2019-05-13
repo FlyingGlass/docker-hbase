@@ -4,7 +4,8 @@ MAINTAINER Ivan Ermilov <ivan.s.ermilov@gmail.com>
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends net-tools curl netcat
 
 ENV HBASE_VERSION 1.2.6
-ENV HBASE_URL http://www.apache.org/dist/hbase/$HBASE_VERSION/hbase-$HBASE_VERSION-bin.tar.gz
+# ENV HBASE_URL http://www.apache.org/dist/hbase/$HBASE_VERSION/hbase-$HBASE_VERSION-bin.tar.gz
+ENV HBASE_URL http://archive.apache.org/dist/hbase/$HBASE_VERSION/hbase-$HBASE_VERSION-bin.tar.gz
 RUN set -x \
     && curl -fSL "$HBASE_URL" -o /tmp/hbase.tar.gz \
     && curl -fSL "$HBASE_URL.asc" -o /tmp/hbase.tar.gz.asc \
@@ -21,6 +22,17 @@ ENV HBASE_CONF_DIR=/etc/hbase
 
 ENV USER=root
 ENV PATH $HBASE_PREFIX/bin/:$PATH
+
+# Phoenix
+ENV PHOENIX_VERSION 4.14.1-HBase-1.2
+ENV PHOENIX_URL http://mirrors.tuna.tsinghua.edu.cn/apache/phoenix/apache-phoenix-4.14.1-HBase-1.2/bin/apache-phoenix-4.14.1-HBase-1.2-bin.tar.gz
+RUN set -x \
+    && curl -fSL "$PHOENIX_URL" -o /tmp/phoenix.tar.gz \
+    && tar --warning=no-unknown-keyword -xvf /tmp/phoenix.tar.gz -C /opt/ \
+    && rm /tmp/phoenix.tar.gz*
+ENV PHOENIX_PREFIX=/opt/apache-phoenix-$PHOENIX_VERSION-bin
+RUN cp $PHOENIX_PREFIX/phoenix-$PHOENIX_VERSION-server.jar $HBASE_PREFIX/lib/
+
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh
