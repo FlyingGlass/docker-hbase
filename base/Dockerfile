@@ -25,7 +25,8 @@ ENV PATH $HBASE_PREFIX/bin/:$PATH
 
 # Phoenix
 ENV PHOENIX_VERSION 4.14.1-HBase-1.2
-ENV PHOENIX_URL http://mirrors.tuna.tsinghua.edu.cn/apache/phoenix/apache-phoenix-4.14.1-HBase-1.2/bin/apache-phoenix-4.14.1-HBase-1.2-bin.tar.gz
+# ENV PHOENIX_URL http://mirrors.tuna.tsinghua.edu.cn/apache/phoenix/apache-phoenix-4.14.1-HBase-1.2/bin/apache-phoenix-4.14.1-HBase-1.2-bin.tar.gz
+ENV PHOENIX_URL https://archive.apache.org/dist/phoenix/apache-phoenix-4.14.1-HBase-1.2/bin/apache-phoenix-4.14.1-HBase-1.2-bin.tar.gz
 RUN set -x \
     && curl -fSL "$PHOENIX_URL" -o /tmp/phoenix.tar.gz \
     && tar --warning=no-unknown-keyword -xvf /tmp/phoenix.tar.gz -C /opt/ \
